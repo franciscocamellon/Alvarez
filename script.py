@@ -11,14 +11,16 @@ loaded_lyr = [layer.name()
 # definimos o layer que queremos alterar. QUANTO MAIOR O NÚMERO DE FEIÇÕES NO
 # LAYER MAIOR É O TEMPO DE PROCESSAMENTO PODENDO TRAVAR O QGIS QUE DESTRAVA AO
 # TÉRMINO DO SCRIPT.
-my_lyr = 'lim_delimitacao_fisica_l'
+MY_LYR = 'lim_delimitacao_fisica_l'
 
 # usamos uma condição para verificar se nosso layer está presente na lista
 # de layers carregados
-if my_lyr in loaded_lyr:
-    lyr = QgsProject.instance().mapLayersByName(my_lyr)[0]
+if MY_LYR in loaded_lyr:
+    lyr = QgsProject.instance().mapLayersByName(MY_LYR)[0]
     pr = lyr.dataProvider()
     pr.addAttributes([QgsField("tam_txt", QVariant.String, len=10)])
+    # variação específica para postgis
+    # pr.addAttributes([QgsField("tam_txt", QVariant.String, "VARCHAR")])
     # até aqui nada acontece no canvas
     # tem que fazer o update para aparecerem as mudançasCSS
     lyr.updateFields()
@@ -50,9 +52,9 @@ for feature in wanted_features:
     # changeAttributeValue(id, field_index, value)
     fid = feature.id()
     # definimos o novo valor para o atributo
-    value = '100 Ma'
+    VALUE = '100 Ma'
     # chamamos o método changeAttributeValue()
-    lyr.changeAttributeValue(fid, field_index, value)
+    lyr.changeAttributeValue(fid, field_index, VALUE)
     # agora é hora de commitar as mudanças para o lyr
 lyr.commitChanges()
 
